@@ -25,8 +25,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 /**
- * The main class off the project , it  simulates health data for a number of patients 
+ * The main class off the project, it  simulates health data for a number of patients 
  * given information from the command line.
+ * 
+ * @author Tom tpepels
  */
 public class HealthDataSimulator {
 

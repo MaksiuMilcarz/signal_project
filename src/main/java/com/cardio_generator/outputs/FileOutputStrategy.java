@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Output strategy that writes data to files
+ * The data is written to a file in the base directory
  */
 //convert class name to UpperCamelCase
 public class FileOutputStrategy implements OutputStrategy {  

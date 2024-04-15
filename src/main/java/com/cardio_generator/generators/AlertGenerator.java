@@ -5,8 +5,9 @@ import java.util.Random;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * Generates alert data for patients.
- *alerts are triggered randomly with a given average rate  - lambda - and resolved with a 90% probability
+ * Generates alert data for patients
+ * alerts are triggered randomly with a given average rate  - lambda - and resolved with a 90% probability
+ * Alerts are outputted using the given output strategy
  */
 public class AlertGenerator implements PatientDataGenerator {
     //convert randomGenerator var name to UPPEER_CASE, since its a constant

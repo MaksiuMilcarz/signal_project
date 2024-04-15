@@ -5,7 +5,8 @@ import java.util.Random;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * Generates blood saturation data for a patient
+ * Generates blood saturation data for each patient
+ * Blood saturation values are simulated and outputted using the given output strategy
  */
 public class BloodSaturationDataGenerator implements PatientDataGenerator {
     private static final Random random = new Random();
