@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Output strategy that writes data to files
+ */
 //convert class name to UpperCamelCase
 public class FileOutputStrategy implements OutputStrategy {  
     //convert baseDirectory var name to camelCase
@@ -14,11 +17,21 @@ public class FileOutputStrategy implements OutputStrategy {
     //Comvert fileMap var name to camelCase
     public final ConcurrentHashMap<String, String> fileMap = new ConcurrentHashMap<>(); 
 
+    /**
+     * Constructor
+     * @param baseDirectory The base directory where files will be stored
+     */
     public FileOutputStrategy(String baseDirectory) {
-
         this.baseDirectory = baseDirectory;
     }
 
+    /**
+     * tries to write  data to a file in the base directory, if it fails it prints an error message
+     * @param patientId The ID of the patient
+     * @param timeStamp The timestamp of the data
+     * @param label The label of the data
+     * @param data The data to be written
+     */
     @Override                         //convert timeStamp var name to camelCase
     public void output(int patientId, long timeStamp, String label, String data) { 
         try {
