@@ -70,4 +70,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 ## UML Diagrams
-- uml_models folder includes the class diagram of src code.
+- uml_models folder includes:
+   * Class Diagram of src code
+   * State Diagram for alert system
+   * Sequence Diagram for alert system
+   * explenation
