@@ -1,0 +1,17 @@
+The class diagram depicts the structure and relationships of classes within the cardio_generator system. 
+At the core is the HealthDataSimulator class, responsible for orchestrating data generation and output strategies. 
+It maintains an outputStrategy attribute, allowing flexible output configurations.
+
+Four output strategies are supported: ConsoleOutputStrategy, FileOutputStrategy, WebSocketOutputStrategy, 
+and TcpOutputStrategy. Each strategy implements the OutputStrategy interface, defining a output() method for 
+transmitting data. ConsoleOutputStrategy is the default option. Also, WebSocketOutputStrategy owns a private 
+class SimpleWebSocketServer responsible for server activities specific for this project.
+
+These strategies facilitate modular and extensible data output. Additionally, the HealthDataSimulator class 
+orchestrates the simulation process through PatientDataGenerator Interface, which is realized by 
+BloodSaturationDataGenerator, BloodPressureDataGenerator, BloodLevelsDataGenerator, and ECGDataGenerator classes. 
+
+Each of these classes inherits a generate() method responsible for generating data for each patient and then 
+outputting it with a user-specified OutputStrategy. 
+
+
