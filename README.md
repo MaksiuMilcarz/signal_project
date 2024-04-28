@@ -74,4 +74,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
    * Class Diagram of src code
    * State Diagram for alert system
    * Sequence Diagram for alert system
-   * explenation
+   * class diagrams for AlertGEnerator, DataStorage, PatientIdentification and DataAccessLAyer
+   * All in one PDF inside of uml_models folder
