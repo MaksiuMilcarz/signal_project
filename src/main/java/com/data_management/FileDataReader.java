@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.data_management.DataReader;
+import com.data_management.DataStorage;
+
 public class FileDataReader implements DataReader{
     public void readData(DataStorage dataStorage) throws IOException {
         // Read data from a file and store it in the data storage
@@ -40,7 +43,7 @@ public class FileDataReader implements DataReader{
             }
 
         }
-    }
+    }  
     public static void main(String[] args) {
         FileDataReader reader = new FileDataReader();
         DataStorage storage = new DataStorage();

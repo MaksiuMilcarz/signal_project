@@ -45,7 +45,15 @@ public class AlertGenerator {
      * @param patient the patient data to evaluate for alert conditions
      */
     public void evaluateData(Patient patient) {
+        if (patient == null) {
+            System.out.println("ERROR: Patient data is null.");
+            return;
+        }
         List<PatientRecord> records = patient.getRecords(1700000000000L,1800000000000L);
+        if (records == null || records.isEmpty()) {
+            System.out.println("No records found for patient " + patient.getPatientId());
+            return;
+        }
 
         //make a seperate list of each type of record
         List<PatientRecord> diastolicPressureRecords = new ArrayList<>();
@@ -54,96 +62,30 @@ public class AlertGenerator {
         List<PatientRecord> ECGRecords = new ArrayList<>();
 
         for (PatientRecord record : records) {
-            if(record.getRecordType().equals("DiastolicPressure")){
-                diastolicPressureRecords.add(record);
-            }
-            else if(record.getRecordType().equals("SystolicPressure")){
-                systolicPressureRecords.add(record);
-            }
-            else if(record.getRecordType().equals("Saturation")){
-                bloodSaturationRecords.add(record);
-            }
-            else if(record.getRecordType().equals("ECG")){
-                ECGRecords.add(record);
-            }
-        }
-
-        if(systolicPressureRecords.get(systolicPressureRecords.size()-1).getMeasurementValue() <90 && bloodSaturationRecords.get(bloodSaturationRecords.size()-1).getMeasurementValue() <=92){
-            triggerAlert(new Alert(patient.getPatientId(), "Hypoxia", systolicPressureRecords.get(systolicPressureRecords.size()-1).getTimestamp()));
-            return;
-        }
-
-        //Assume last records are the most recent
-        //diastolic pressure
-        int count = 0;
-        for(int i = diastolicPressureRecords.size()-1; i >= diastolicPressureRecords.size() - 4; i--){
-            if(diastolicPressureRecords.get(i).getMeasurementValue() > 120 || diastolicPressureRecords.get(i).getMeasurementValue() < 60){
-                triggerAlert(new Alert(patient.getPatientId(), "abnormalDiastolicPressure", diastolicPressureRecords.get(i).getTimestamp()));
-                break;
-            }
-            else{
-                if(Math.abs(diastolicPressureRecords.get(i-1).getMeasurementValue() - diastolicPressureRecords.get(i).getMeasurementValue()) > 10){
-                    count++;
-                }
-                else{
-                    count = 0;
-                }
-            }
-            if(count == 3){
-                triggerAlert(new Alert(patient.getPatientId(), "changingDiastolicPressure", diastolicPressureRecords.get(i).getTimestamp()));
-                count = 0;
-                break;
+            String recordType = record.getRecordType();
+            switch (recordType) {
+                case "DiastolicPressure":
+                    diastolicPressureRecords.add(record);
+                    break;
+                case "SystolicPressure":
+                    systolicPressureRecords.add(record);
+                    break;
+                case "Saturation":
+                    bloodSaturationRecords.add(record);
+                    break;
+                case "ECG":
+                    ECGRecords.add(record);
+                    break;
+                default:
+                    System.out.println("Unknown record type: " + recordType);
+                    break;
             }
         }
-
-        //systolic pressure
-        
-        for(int i = systolicPressureRecords.size()-1; i >= systolicPressureRecords.size() - 4; i--){
-            if(systolicPressureRecords.get(i).getMeasurementValue() > 180 || systolicPressureRecords.get(i).getMeasurementValue() < 90){
-                triggerAlert(new Alert(patient.getPatientId(), "abnormalSystolicPressure", systolicPressureRecords.get(i).getTimestamp()));
-                break;
-            }
-            else{
-                if(Math.abs(systolicPressureRecords.get(i-1).getMeasurementValue() - systolicPressureRecords.get(i).getMeasurementValue()) > 10){
-                    count++;
-                }
-                else{
-                    count = 0;
-                }
-            }
-            if(count == 3){
-                triggerAlert(new Alert(patient.getPatientId(), "changingSystolicPressure", systolicPressureRecords.get(i).getTimestamp()));
-                count = 0;
-                break;
-            }
-        }
-
-        //bloood saturation
-        for(int i = bloodSaturationRecords.size()-1; i>=bloodSaturationRecords.size()-4;i--){
-            if(bloodSaturationRecords.get(i).getMeasurementValue() < 92){
-                triggerAlert(new Alert(patient.getPatientId(), "abnormalBloodSaturation", bloodSaturationRecords.get(i).getTimestamp()));
-                break;
-            }
-            else{
-                if(bloodSaturationRecords.get(i-1).getMeasurementValue() - bloodSaturationRecords.get(i).getMeasurementValue() > 5 
-                && Math.abs(bloodSaturationRecords.get(i-1).getTimestamp() - bloodSaturationRecords.get(i).getTimestamp()) <= 10){
-                    triggerAlert(new Alert(patient.getPatientId(), "decreasingBloodSaturation", bloodSaturationRecords.get(i).getTimestamp()));
-                }
-            }
-        }
-
-        for(int i = ECGRecords.size()-1; i>=0;i--){
-            if(ECGRecords.get(i).getMeasurementValue() > 100 || ECGRecords.get(i).getMeasurementValue() <50){
-                triggerAlert(new Alert(patient.getPatientId(), "abnormalECG", ECGRecords.get(i).getTimestamp()));
-                break;
-            }
-            else{
-                if(Math.abs(ECGRecords.get(i-1).getMeasurementValue() - ECGRecords.get(i).getMeasurementValue()) >= 10){
-                triggerAlert(new Alert(patient.getPatientId(), "spikingECG", ECGRecords.get(i).getTimestamp()));
-                break;
-                }
-            }       
-        }
+        evaluateHypoxia(patient, systolicPressureRecords, bloodSaturationRecords);
+        evaluateDiastolicPressure(patient, diastolicPressureRecords);
+        evaluateSystolicPressure(patient, systolicPressureRecords);
+        evaluateBloodSaturation(patient, bloodSaturationRecords);
+        evaluateECG(patient, ECGRecords);
     }
 
     /**
@@ -157,5 +99,90 @@ public class AlertGenerator {
     private void triggerAlert(Alert alert) {
         alerts.add(alert);
         System.out.println("ALERT: " + alert.toString());
+    }
+
+    private void evaluateHypoxia(Patient patient, List<PatientRecord> systolicPressureRecords, List<PatientRecord> bloodSaturationRecords) {
+        if (systolicPressureRecords.isEmpty() || bloodSaturationRecords.isEmpty()) {
+            return;
+        }
+    
+        PatientRecord latestSystolicPressureRecord = systolicPressureRecords.get(systolicPressureRecords.size() - 1);
+        PatientRecord latestBloodSaturationRecord = bloodSaturationRecords.get(bloodSaturationRecords.size() - 1);
+    
+        if (latestSystolicPressureRecord.getMeasurementValue() < 90 && latestBloodSaturationRecord.getMeasurementValue() <= 92) {
+            triggerAlert(new Alert(patient.getPatientId(), "Hypoxia", latestSystolicPressureRecord.getTimestamp()));
+        }
+    }
+
+    private void evaluateDiastolicPressure(Patient patient, List<PatientRecord> diastolicPressureRecords) {
+        int count = 0;
+        for (int i = diastolicPressureRecords.size() - 1; i >= 0; i--) {
+            PatientRecord currentRecord = diastolicPressureRecords.get(i);
+            if (currentRecord.getMeasurementValue() > 120 || currentRecord.getMeasurementValue() < 60) {
+                triggerAlert(new Alert(patient.getPatientId(), "abnormalDiastolicPressure", currentRecord.getTimestamp()));
+                break;
+            } else {
+                if (i > 0 && Math.abs(diastolicPressureRecords.get(i - 1).getMeasurementValue() - currentRecord.getMeasurementValue()) > 10) {
+                    count++;
+                } else {
+                    count = 0;
+                }
+            }
+            if (count == 3) {
+                triggerAlert(new Alert(patient.getPatientId(), "changingDiastolicPressure", currentRecord.getTimestamp()));
+                break;
+            }
+        }
+    }
+    
+    private void evaluateSystolicPressure(Patient patient, List<PatientRecord> systolicPressureRecords) {
+        int count = 0;
+        for (int i = systolicPressureRecords.size() - 1; i >= 0; i--) {
+            PatientRecord currentRecord = systolicPressureRecords.get(i);
+            if (currentRecord.getMeasurementValue() > 180 || currentRecord.getMeasurementValue() < 90) {
+                triggerAlert(new Alert(patient.getPatientId(), "abnormalSystolicPressure", currentRecord.getTimestamp()));
+                break;
+            } else {
+                if (i > 0 && Math.abs(systolicPressureRecords.get(i - 1).getMeasurementValue() - currentRecord.getMeasurementValue()) > 10) {
+                    count++;
+                } else {
+                    count = 0;
+                }
+            }
+            if (count == 3) {
+                triggerAlert(new Alert(patient.getPatientId(), "changingSystolicPressure", currentRecord.getTimestamp()));
+                break;
+            }
+        }
+    }
+    
+    private void evaluateBloodSaturation(Patient patient, List<PatientRecord> bloodSaturationRecords) {
+        for (int i = bloodSaturationRecords.size() - 1; i >= 0; i--) {
+            PatientRecord currentRecord = bloodSaturationRecords.get(i);
+            if (currentRecord.getMeasurementValue() < 92) {
+                triggerAlert(new Alert(patient.getPatientId(), "abnormalBloodSaturation", currentRecord.getTimestamp()));
+                break;
+            } else {
+                if (i > 0 && bloodSaturationRecords.get(i - 1).getMeasurementValue() - currentRecord.getMeasurementValue() > 5
+                        && Math.abs(bloodSaturationRecords.get(i - 1).getTimestamp() - currentRecord.getTimestamp()) <= 10) {
+                    triggerAlert(new Alert(patient.getPatientId(), "decreasingBloodSaturation", currentRecord.getTimestamp()));
+                }
+            }
+        }
+    }
+    
+    private void evaluateECG(Patient patient, List<PatientRecord> ECGRecords) {
+        for (int i = ECGRecords.size() - 1; i >= 0; i--) {
+            PatientRecord currentRecord = ECGRecords.get(i);
+            if (currentRecord.getMeasurementValue() > 100 || currentRecord.getMeasurementValue() < 50) {
+                triggerAlert(new Alert(patient.getPatientId(), "abnormalECG", currentRecord.getTimestamp()));
+                break;
+            } else {
+                if (i > 0 && Math.abs(ECGRecords.get(i - 1).getMeasurementValue() - currentRecord.getMeasurementValue()) >= 10) {
+                    triggerAlert(new Alert(patient.getPatientId(), "spikingECG", currentRecord.getTimestamp()));
+                    break;
+                }
+            }
+        }
     }
 }

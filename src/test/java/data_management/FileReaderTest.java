@@ -11,14 +11,14 @@ import com.data_management.PatientRecord;
 import java.io.IOException;
 import java.util.List;
 
-public class FilereaderTestting {
+public class FileReaderTest {
     @Test
     void testReadingDataFromFiles() throws IOException {
-        FileDataReader reader = new FileDataReader();
         DataStorage storage = new DataStorage();
+        FileDataReader reader = new FileDataReader();
         reader.readData(storage);
 
-        List<PatientRecord> records = storage.getRecords(1, 1714376789050L, 1714376789051L);
+        List<PatientRecord> records = storage.getRecords(9, 1700000000000L, 1800000000000L);
 
         assertTrue(!records.isEmpty());
     }
