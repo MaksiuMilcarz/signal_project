@@ -11,7 +11,7 @@ import com.data_management.PatientRecord;
 import java.io.IOException;
 import java.util.List;
 
-public class FileReaderTest {
+class FileReaderTest {
     @Test
     void testReadingDataFromFiles() throws IOException {
         DataStorage storage = new DataStorage();

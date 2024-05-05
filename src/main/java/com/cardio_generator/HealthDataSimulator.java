@@ -143,7 +143,7 @@ public class HealthDataSimulator {
      * @param patientCount Number of patients as indicated by the user in the args
      * @return  List of patient IDs
      */
-    private static List<Integer> initializePatientIds(int patientCount) {
+    public static List<Integer> initializePatientIds(int patientCount) {
         List<Integer> patientIds = new ArrayList<>();
         for (int i = 1; i <= patientCount; i++) {
             patientIds.add(i);

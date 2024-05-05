@@ -9,7 +9,7 @@ import com.data_management.Patient;
 
 import java.io.IOException;
 
-public class AlertGenerationTest {
+class AlertGenerationTest {
     @Test
     void testNoAlerts() throws IOException {
         DataStorage storage = new DataStorage();
