@@ -24,6 +24,16 @@ public class BloodLevelsDataGenerator implements PatientDataGenerator {
         }
     }
 
+    public double[] getBaselineCholesterol() {
+        return baselineCholesterol;
+    }
+    public double[] getBaselineWhiteCells() {
+        return baselineWhiteCells;
+    }
+    public double[] getBaselineRedCells() {
+        return baselineRedCells;
+    }
+
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {

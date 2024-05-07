@@ -17,6 +17,10 @@ public class ECGDataGenerator implements PatientDataGenerator {
         }
     }
 
+    public double[] getLastEcgValues() {
+        return lastEcgValues;
+    }
+
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {

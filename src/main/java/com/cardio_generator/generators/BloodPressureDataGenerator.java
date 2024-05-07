@@ -21,6 +21,13 @@ public class BloodPressureDataGenerator implements PatientDataGenerator {
         }
     }
 
+    public int[] getLastSystolicValues() {
+        return lastSystolicValues;
+    }
+    public int[] getLastDiastolicValues() {
+        return lastDiastolicValues;
+    }
+
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {

@@ -27,6 +27,10 @@ public class BloodSaturationDataGenerator implements PatientDataGenerator {
         }
     }
 
+    public int[] getLastSaturationValues() {
+        return lastSaturationValues;
+    } 
+
     /**
      * Generates blood saturation data for a patient and outputs it using the given output strategy
      * @param patientId  ID of the patient
