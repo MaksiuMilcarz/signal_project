@@ -1,14 +1,14 @@
-package cardio_generator;
+package cardioGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import com.cardio_generator.HealthDataSimulator;
-import com.cardio_generator.generators.BloodLevelsDataGenerator;
-import com.cardio_generator.generators.BloodPressureDataGenerator;
-import com.cardio_generator.generators.BloodSaturationDataGenerator;
-import com.cardio_generator.generators.ECGDataGenerator;
-import com.cardio_generator.outputs.ConsoleOutputStrategy;
+import com.cardioGenerator.HealthDataSimulator;
+import com.cardioGenerator.generators.BloodLevelsDataGenerator;
+import com.cardioGenerator.generators.BloodPressureDataGenerator;
+import com.cardioGenerator.generators.BloodSaturationDataGenerator;
+import com.cardioGenerator.generators.ECGDataGenerator;
+import com.cardioGenerator.outputs.ConsoleOutputStrategy;
 
 public class generatorsTest {
     @Test

@@ -1,11 +1,11 @@
-package data_management;
+package dataManagement;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import com.alerts.AlertGenerator;
-import com.data_management.DataStorage;
-import com.data_management.Patient;
+import com.dataManagement.DataStorage;
+import com.dataManagement.Patient;
 
 import java.io.IOException;
 

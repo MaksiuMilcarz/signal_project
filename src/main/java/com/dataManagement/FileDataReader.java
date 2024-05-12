@@ -1,4 +1,4 @@
-package com.data_management;
+package com.dataManagement;
 
 import java.io.BufferedReader;
 import java.io.File;

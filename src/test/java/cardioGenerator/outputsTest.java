@@ -1,4 +1,4 @@
-package cardio_generator;
+package cardioGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,7 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
-import com.cardio_generator.outputs.ConsoleOutputStrategy;
+import com.cardioGenerator.outputs.ConsoleOutputStrategy;
 
 public class outputsTest {
     @Test
@@ -32,6 +32,4 @@ public class outputsTest {
         // Reset the standard output
         System.setOut(originalOut); 
     }
-
-    
 }

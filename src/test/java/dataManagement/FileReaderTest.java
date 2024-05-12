@@ -1,12 +1,12 @@
-package data_management;
+package dataManagement;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 // import org.junit.*;
 
-import com.data_management.DataStorage;
-import com.data_management.FileDataReader;
-import com.data_management.PatientRecord;
+import com.dataManagement.DataStorage;
+import com.dataManagement.FileDataReader;
+import com.dataManagement.PatientRecord;
 
 import java.io.IOException;
 import java.util.List;

@@ -3,9 +3,9 @@ package com.alerts;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.data_management.DataStorage;
-import com.data_management.Patient;
-import com.data_management.PatientRecord;
+import com.dataManagement.DataStorage;
+import com.dataManagement.Patient;
+import com.dataManagement.PatientRecord;
 
 /**
  * The {@code AlertGenerator} class is responsible for monitoring patient data

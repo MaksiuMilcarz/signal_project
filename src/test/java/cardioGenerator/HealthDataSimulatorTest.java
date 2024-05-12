@@ -1,4 +1,4 @@
-package cardio_generator;
+package cardioGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.cardio_generator.HealthDataSimulator;
+import com.cardioGenerator.HealthDataSimulator;
 
 public class HealthDataSimulatorTest {
     @Test
