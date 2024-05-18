@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileDataReader implements DataReader{
-    public void readData(DataStorage dataStorage) throws IOException {
+    public void readData(DataStorage dataStorage) {
         // Read data from a file and store it in the data storage
         File directory = new File("/Users/maksiuuuuuuu/Desktop/SoftwareEngineering/project/signal_project/output");
         File[] files = directory.listFiles();
@@ -48,7 +48,7 @@ public class FileDataReader implements DataReader{
         DataStorage storage = new DataStorage();
         try {
             reader.readData(storage);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         List<PatientRecord> records = storage.getRecords(100, 1700000000000L, 1800000000000L);
