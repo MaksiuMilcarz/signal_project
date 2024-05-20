@@ -1,6 +1,6 @@
 package com.dataManagement;
 
 public interface ContinousDataReader {
-    void startReadingData(DataStorage dataStorage);
+    void startReadingData();
     void stopReadingData();
 }

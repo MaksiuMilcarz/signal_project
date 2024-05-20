@@ -21,28 +21,37 @@ public class ErrorHandingTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        int port = 8080;
+        int port = 8050;
         webSocketOutputStrategy = new WebSocketOutputStrategy(port);
         dataStorage = new DataStorage();
         server = webSocketOutputStrategy.getServer();
-        WebSocketDataReader reader = new WebSocketDataReader(new URI("ws://localhost:" + port), dataStorage);
+        Thread.sleep(1000); // Wait for the server to start
+        reader = new WebSocketDataReader(new URI("ws://localhost:" + port), dataStorage);
         reader.connectBlocking();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        reader.close();
-        server.stop();
+        if (reader != null) {
+            reader.closeBlocking();  // Wait for connection to close
+        }
+        if (server != null) {
+            server.stop();
+        }
     }
 
     @Test
-    void testDataTransmissionErrorHandling() {
+    void testDataTransmissionErrorHandling() throws Exception {
         String invalidMessage = "invalid_message";
         webSocketOutputStrategy.output(1, 1, "ECG", invalidMessage);
         assertEquals(0, dataStorage.getAllPatients().size());
 
-        String validMessage = "1,1,ECG,117";
+        String validMessage = "117";
         webSocketOutputStrategy.output(1, 1, "ECG", validMessage);
+        Thread.sleep(500);
         assertEquals(1, dataStorage.getAllPatients().size());
+        assertEquals(117, dataStorage.getRecords(1, 0, 10).get(0).getMeasurementValue());
+        reader.stopReadingData();
+        tearDown();
     }
 }

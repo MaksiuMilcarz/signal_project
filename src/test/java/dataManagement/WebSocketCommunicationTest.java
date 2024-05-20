@@ -25,19 +25,29 @@ public class WebSocketCommunicationTest {
         webSocketOutputStrategy = new WebSocketOutputStrategy(port);
         dataStorage = new DataStorage();
         server = webSocketOutputStrategy.getServer();
-        WebSocketDataReader reader = new WebSocketDataReader(new URI("ws://localhost:" + port), dataStorage);
+        Thread.sleep(1000); // Wait for the server to start
+        reader = new WebSocketDataReader(new URI("ws://localhost:" + port), dataStorage);
         reader.connectBlocking();
     }
 
     @AfterEach
-    void tearDown() throws Exception {
-        reader.close();
-        server.stop();
+    void tearDown() throws Exception{
+        if (reader != null) {
+            reader.closeBlocking();  // Wait for connection to close
+        }
+        if (server != null) {
+            server.stop();
+        }
     }
 
     @Test
-    void testOutput(){
+    void testOutput() throws Exception{
+        assertEquals(0, dataStorage.getAllPatients().size());
         webSocketOutputStrategy.output(1, 1, "ECG", "117");
+        Thread.sleep(500);
+        assertEquals(1, dataStorage.getAllPatients().size());
         assertEquals(117, dataStorage.getRecords(1, 0, 10).get(0).getMeasurementValue());
+        reader.stopReadingData();
+        tearDown(); 
     }
 }
