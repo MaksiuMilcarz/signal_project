@@ -15,6 +15,10 @@ public class WebSocketOutputStrategy implements OutputStrategy {
         server.start();
     }
 
+    public WebSocketServer getServer() {
+        return server;
+    }
+
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
         String message = String.format("%d,%d,%s,%s", patientId, timestamp, label, data);
