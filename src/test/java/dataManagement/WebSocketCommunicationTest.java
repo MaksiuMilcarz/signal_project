@@ -40,6 +40,9 @@ public class WebSocketCommunicationTest {
         }
     }
 
+    /*
+     * This test checks if the data is stored correctly in the DataStorage object.
+     */
     @Test
     void testOutput() throws Exception{
         assertEquals(0, dataStorage.getAllPatients().size());

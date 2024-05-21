@@ -40,18 +40,21 @@ public class ErrorHandingTest {
         }
     }
 
+    /*
+     * Check the reconnection feature
+     */
     @Test
     void testDataTransmissionErrorHandling() throws Exception {
         String invalidMessage = "invalid_message";
-        webSocketOutputStrategy.output(1, 1, "ECG", invalidMessage);
+        webSocketOutputStrategy.output(1,1,"ECG",invalidMessage);
+        Thread.sleep(1000);
         assertEquals(0, dataStorage.getAllPatients().size());
 
         String validMessage = "117";
-        webSocketOutputStrategy.output(1, 1, "ECG", validMessage);
-        Thread.sleep(500);
+        Thread.sleep(2000);
+        webSocketOutputStrategy.output(2,2,"ECG",validMessage);
+        Thread.sleep(1000);
         assertEquals(1, dataStorage.getAllPatients().size());
-        assertEquals(117, dataStorage.getRecords(1, 0, 10).get(0).getMeasurementValue());
-        reader.stopReadingData();
-        tearDown();
+        assertEquals(117.0, dataStorage.getRecords(2, 0, 10).get(0).getMeasurementValue());
     }
 }

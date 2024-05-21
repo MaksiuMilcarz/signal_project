@@ -44,6 +44,10 @@ public class DataStorage {
         Patient patient = patientMap.computeIfAbsent(patientId, id -> new Patient(id));
 
         patient.addRecord(measurementValue, recordType, timestamp);
+        System.out.println("Added record for Patient ID: " + patientId +
+                ", Type: " + recordType +
+                ", Data: " + measurementValue +
+                ", Timestamp: " + timestamp);
     }
 
     /**
