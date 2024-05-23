@@ -1,10 +1,12 @@
-package com.alerts;
+package com.alerts.Factory;
 
-public class BloodOxygenAlertFactory extends AlertFactory {
+import com.alerts.Alert;
+
+public class BloodPressureAlertFactory extends AlertFactory {
     private String patientId;
     private long timestamp;
 
-    public BloodOxygenAlertFactory(String patientId, long timestamp) {
+    public BloodPressureAlertFactory(String patientId, long timestamp) {
         this.patientId = patientId;
         this.timestamp = timestamp;
     }

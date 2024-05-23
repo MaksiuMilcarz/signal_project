@@ -54,16 +54,12 @@ public class WebSocketDataReader extends WebSocketClient implements ContinousDat
     private void processData(String message) {
         try {
             String[] parts = message.split(",");
-            // Add logging to inspect message parts
-            System.out.println("Message Parts: " + Arrays.toString(parts));
             
             int patientId = Integer.parseInt(parts[0]);
             long timestamp = Long.parseLong(parts[1]);
             String label = parts[2];
             double data = Double.parseDouble(parts[3]);
-            // Add logging to inspect parsed data
-            System.out.println("Parsed Data - Patient ID: " + patientId + ", Timestamp: " + timestamp + ", Label: " + label + ", Measurement Value: " + data);
-    
+
             this.dataStorage.addPatientData(patientId, data, label, timestamp);
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
             System.err.println("Error parsing message: " + e.getMessage());

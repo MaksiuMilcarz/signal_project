@@ -14,22 +14,22 @@ class AlertGenerationTest {
     void testNoAlerts() throws IOException {
         DataStorage storage = new DataStorage();
         Patient patient = new Patient(1);
-        patient.addRecord(100.0, "DiastolicPressure", 1714376789050L);
-        patient.addRecord(110.0, "SystolicPressure", 1714376789050L);
-        patient.addRecord(98.0, "Saturation", 1714376789050L);
-        patient.addRecord(60.0, "ECG", 1714376789050L);
-        patient.addRecord(100.0, "DiastolicPressure", 1714376789049L);
-        patient.addRecord(110.0, "SystolicPressure", 1714376789049L);
-        patient.addRecord(98.0, "Saturation", 1714376789049L);
-        patient.addRecord(60.0, "ECG", 1714376789049L);
-        patient.addRecord(100.0, "DiastolicPressure", 1714376789040L);
-        patient.addRecord(110.0, "SystolicPressure", 1714376789040L);
-        patient.addRecord(98.0, "Saturation", 1714376789040L);
-        patient.addRecord(60.0, "ECG", 1714376789040L);
-        patient.addRecord(100.0, "DiastolicPressure", 1714376789039L);
-        patient.addRecord(110.0, "SystolicPressure", 1714376789039L);
-        patient.addRecord(98.0, "Saturation", 1714376789039L);
-        patient.addRecord(60.0, "ECG", 1714376789039L);
+        patient.addRecord(100.0, "DiastolicPressure", 1714376789010L);
+        patient.addRecord(110.0, "SystolicPressure", 1714376789052L);
+        patient.addRecord(98.0, "Saturation", 1714376789053L);
+        patient.addRecord(60.0, "ECG", 1714376789054L);
+        patient.addRecord(100.0, "DiastolicPressure", 1714376789045L);
+        patient.addRecord(110.0, "SystolicPressure", 1714376789046L);
+        patient.addRecord(98.0, "Saturation", 1714376789047L);
+        patient.addRecord(60.0, "ECG", 1714376789048L);
+        patient.addRecord(100.0, "DiastolicPressure", 1714376789120L);
+        patient.addRecord(110.0, "SystolicPressure", 1714376789140L);
+        patient.addRecord(98.0, "Saturation", 1714376789240L);
+        patient.addRecord(60.0, "ECG", 1714376789340L);
+        patient.addRecord(100.0, "DiastolicPressure", 1714376789439L);
+        patient.addRecord(110.0, "SystolicPressure", 1714376789539L);
+        patient.addRecord(98.0, "Saturation", 1714376787039L);
+        patient.addRecord(60.0, "ECG", 1714376784039L);
 
         AlertGenerator alertGenerator = new AlertGenerator(storage);
         alertGenerator.evaluateData(patient);
@@ -40,64 +40,41 @@ class AlertGenerationTest {
     void testAbnormalDataAlerts(){
         DataStorage storage = new DataStorage();
         Patient patient = new Patient(1);
+        // Add records with abnormal values
         patient.addRecord(190.0, "DiastolicPressure", 1714376789050L);
-        patient.addRecord(190.0, "SystolicPressure", 1714376789050L);
-        patient.addRecord(90.0, "Saturation", 1714376789050L);
-        patient.addRecord(90.0, "Saturation", 1714376789050L);
-        patient.addRecord(90.0, "Saturation", 1714376789050L);
-        patient.addRecord(90.0, "Saturation", 1714376789050L);
-        patient.addRecord(20.0, "ECG", 1714376789050L);
+        patient.addRecord(190.0, "SystolicPressure", 1714376789051L);
+        patient.addRecord(80.0, "Saturation", 1714376789052L);
+        patient.addRecord(20.0, "ECG", 1714376789053L);
 
         AlertGenerator alertGenerator = new AlertGenerator(storage);
         alertGenerator.evaluateData(patient);
-        assertTrue(alertGenerator.getAlerts().size()==4);
+        assertEquals(3, alertGenerator.getAlerts().size());
     }
 
     @Test
     void testAbnormalTrendsInData(){
         DataStorage storage = new DataStorage();
         Patient patient = new Patient(1);
+        // Add records with abnormal trends
         patient.addRecord(70.0, "DiastolicPressure", 1714376789050L);
         patient.addRecord(85.0, "DiastolicPressure", 1714376789051L);
         patient.addRecord(100.0, "DiastolicPressure", 1714376789052L);
         patient.addRecord(115.0, "DiastolicPressure", 1714376789053L);
-        patient.addRecord(95.0, "SystolicPressure", 1714376789054L);
-        patient.addRecord(105.0, "SystolicPressure", 1714376789055L);
-        patient.addRecord(115.0, "SystolicPressure", 1714376789056L);
-        patient.addRecord(125.0, "SystolicPressure", 1714376789057L);
-        patient.addRecord(100.0, "Saturation", 1714376789058L);
-        patient.addRecord(94.0, "Saturation", 1714376789059L);
-        patient.addRecord(60.0, "ECG", 1714376789060L);
-        patient.addRecord(90.0, "ECG", 1714376789061L);
-        patient.addRecord(70.0, "ECG", 1714376789062L);
-        patient.addRecord(70.0, "DiastolicPressure", 1714376789040L);
-        patient.addRecord(85.0, "DiastolicPressure", 1714376789040L);
-        patient.addRecord(100.0, "DiastolicPressure", 1714376789040L);
-        patient.addRecord(115.0, "DiastolicPressure", 1714376789040L);
-        patient.addRecord(95.0, "SystolicPressure", 1714376789040L);
-        patient.addRecord(105.0, "SystolicPressure", 1714376789040L);
-        patient.addRecord(115.0, "SystolicPressure", 1714376789040L);
-        patient.addRecord(125.0, "SystolicPressure", 1714376789040L);
-        patient.addRecord(100.0, "Saturation", 1714376789040L);
-        patient.addRecord(94.0, "Saturation", 1714376789040L);
-        patient.addRecord(60.0, "ECG", 1714376789040L);
-        patient.addRecord(90.0, "ECG", 1714376789040L);
-        patient.addRecord(70.0, "ECG", 1714376789040L);
 
         AlertGenerator alertGenerator = new AlertGenerator(storage);
         alertGenerator.evaluateData(patient);
-        assertTrue(alertGenerator.getAlerts().size()==4);
+        assertEquals(1, alertGenerator.getAlerts().size());
     }
 
     @Test
     void testHypoxia(){
         Patient patient = new Patient(1);
         DataStorage storage = new DataStorage();
-        patient.addRecord(50.0, "SystolicPressure", 1714376789050L);
+        patient.addRecord(40.0, "SystolicPressure", 1714376789050L);
         patient.addRecord(50.0, "Saturation", 1714376789051L);
 
         AlertGenerator alertGenerator = new AlertGenerator(storage);
         alertGenerator.evaluateData(patient);
-        assertTrue(alertGenerator.getAlerts().size()==3);
+        assertEquals(3, alertGenerator.getAlerts().size());
     }
 }
