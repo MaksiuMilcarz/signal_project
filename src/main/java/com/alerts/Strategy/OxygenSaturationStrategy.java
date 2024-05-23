@@ -1,8 +1,9 @@
-package com.alerts;
+package com.alerts.Strategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alerts.Alert;
 import com.dataManagement.Patient;
 import com.dataManagement.PatientRecord;
 

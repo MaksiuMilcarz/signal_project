@@ -1,5 +1,10 @@
 package com.alerts;
 
+import com.alerts.Strategy.AlertStrategy;
+import com.alerts.Strategy.BloodPressureStrategy;
+import com.alerts.Strategy.HeartRateStrategy;
+import com.alerts.Strategy.HypoxiaAlertStrategy;
+import com.alerts.Strategy.OxygenSaturationStrategy;
 import com.dataManagement.DataStorage;
 import com.dataManagement.Patient;
 
