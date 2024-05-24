@@ -45,7 +45,7 @@ public class FileDataReader implements DataReader{
     }  
     public static void main(String[] args) {
         FileDataReader reader = new FileDataReader();
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
         try {
             reader.readData(storage);
         } catch (Exception e) {

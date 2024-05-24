@@ -14,12 +14,13 @@ import java.util.List;
 class FileReaderTest {
     @Test
     void testReadingDataFromFiles() throws IOException {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
         FileDataReader reader = new FileDataReader();
         reader.readData(storage);
 
         List<PatientRecord> records = storage.getRecords(9, 1700000000000L, 1800000000000L);
 
         assertTrue(!records.isEmpty());
+        DataStorage.removeInstance();
     }
 }

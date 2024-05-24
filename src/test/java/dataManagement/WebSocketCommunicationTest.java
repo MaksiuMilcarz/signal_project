@@ -23,7 +23,7 @@ public class WebSocketCommunicationTest {
     void setUp() throws Exception {
         int port = 8080;
         webSocketOutputStrategy = new WebSocketOutputStrategy(port);
-        dataStorage = new DataStorage();
+        dataStorage = DataStorage.getInstance();
         server = webSocketOutputStrategy.getServer();
         Thread.sleep(1000); // Wait for the server to start
         reader = new WebSocketDataReader(new URI("ws://localhost:" + port), dataStorage);
@@ -38,6 +38,7 @@ public class WebSocketCommunicationTest {
         if (server != null) {
             server.stop();
         }
+        DataStorage.removeInstance();
     }
 
     /*

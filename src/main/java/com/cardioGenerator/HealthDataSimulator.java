@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * @author Tom tpepels
  */
 public class HealthDataSimulator {
-
+    private static HealthDataSimulator instance;
     private static int patientCount = 50; // Default number of patients
     private static ScheduledExecutorService scheduler;
     private static OutputStrategy outputStrategy = new ConsoleOutputStrategy(); // Default output strategy
@@ -52,6 +52,21 @@ public class HealthDataSimulator {
         Collections.shuffle(patientIds); // Randomize the order of patient IDs
 
         scheduleTasksForPatients(patientIds);
+    }
+
+    private HealthDataSimulator() {
+    }
+
+    /**
+     * Returns the singleton instance of the HealthDataSimulator class.
+     * 
+     * @return the singleton instance of the HealthDataSimulator class
+     */
+    public static synchronized HealthDataSimulator getInstance() {
+        if (instance == null) {
+            instance = new HealthDataSimulator();
+        }
+        return instance;
     }
 
     /**

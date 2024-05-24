@@ -23,11 +23,12 @@ public class ErrorHandingTest {
     void setUp() throws Exception {
         int port = 8050;
         webSocketOutputStrategy = new WebSocketOutputStrategy(port);
-        dataStorage = new DataStorage();
+        dataStorage = DataStorage.getInstance();
         server = webSocketOutputStrategy.getServer();
         Thread.sleep(1000); // Wait for the server to start
         reader = new WebSocketDataReader(new URI("ws://localhost:" + port), dataStorage);
         reader.connectBlocking();
+
     }
 
     @AfterEach
@@ -38,6 +39,7 @@ public class ErrorHandingTest {
         if (server != null) {
             server.stop();
         }
+        DataStorage.removeInstance();
     }
 
     /*

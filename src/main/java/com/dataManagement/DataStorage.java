@@ -18,13 +18,34 @@ import com.alerts.AlertGenerator;
  */
 public class DataStorage {
     private ConcurrentMap<Integer, Patient> patientMap; 
+    private static DataStorage instance;
 
     /**
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
      */
-    public DataStorage() {
+    private DataStorage() {
         this.patientMap = new ConcurrentHashMap<>();
+    }
+
+    /**
+     * Returns the singleton instance of the DataStorage class.
+     * 
+     * @return the singleton instance of the DataStorage class
+     */
+    public static synchronized DataStorage getInstance() {
+        if (instance == null) {
+            instance = new DataStorage();
+        }
+        return instance;
+    }
+
+    /**
+     * Removes the singleton instance of the DataStorage class.
+     * For testing purposes only.
+     */
+    public static synchronized void removeInstance() {
+        instance = null;
     }
 
     /**
@@ -85,7 +106,7 @@ public class DataStorage {
      * @throws IOException 
      */
     public static void main(String[] args) throws IOException {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
         FileDataReader reader = new FileDataReader();
         reader.readData(storage);
 
