@@ -1,6 +1,7 @@
 package com.alerts.Strategy;
 
 import com.alerts.Alert;
+import com.alerts.AlertBasic;
 import com.dataManagement.Patient;
 import com.dataManagement.PatientRecord;
 
@@ -50,7 +51,8 @@ public class BloodPressureStrategy implements AlertStrategy {
         for (int i = diastolicPressureRecords.size() - 1; i >= 0; i--) {
             PatientRecord currentRecord = diastolicPressureRecords.get(i);
             if (currentRecord.getMeasurementValue() > 120 || currentRecord.getMeasurementValue() < 60) {
-                return new Alert(patient.getPatientId(), "abnormalDiastolicPressure", currentRecord.getTimestamp());
+                Alert alert = new AlertBasic(patient.getPatientId(), "abnormalDiastolicPressure", currentRecord.getTimestamp());
+                return alert;
             } else {
                 if (i > 0 && Math.abs(diastolicPressureRecords.get(i - 1).getMeasurementValue() - currentRecord.getMeasurementValue()) > 10) {
                     count++;
@@ -59,7 +61,8 @@ public class BloodPressureStrategy implements AlertStrategy {
                 }
             }
             if (count == 3) {
-                return new Alert(patient.getPatientId(), "changingDiastolicPressure", currentRecord.getTimestamp());
+                Alert alert  =new AlertBasic(patient.getPatientId(), "changingDiastolicPressure", currentRecord.getTimestamp());
+                return alert;
             }
         }
         return null;
@@ -70,7 +73,8 @@ public class BloodPressureStrategy implements AlertStrategy {
         for (int i = systolicPressureRecords.size() - 1; i >= 0; i--) {
             PatientRecord currentRecord = systolicPressureRecords.get(i);
             if (currentRecord.getMeasurementValue() > 180 || currentRecord.getMeasurementValue() < 90) {
-                return new Alert(patient.getPatientId(), "abnormalSystolicPressure", currentRecord.getTimestamp());
+                Alert alert = new AlertBasic(patient.getPatientId(), "abnormalSystolicPressure", currentRecord.getTimestamp());
+                return alert;
             } else {
                 if (i > 0 && Math.abs(systolicPressureRecords.get(i - 1).getMeasurementValue() - currentRecord.getMeasurementValue()) > 10) {
                     count++;
@@ -79,7 +83,8 @@ public class BloodPressureStrategy implements AlertStrategy {
                 }
             }
             if (count == 3) {
-                return new Alert(patient.getPatientId(), "changingSystolicPressure", currentRecord.getTimestamp());
+                Alert alert = new AlertBasic(patient.getPatientId(), "changingSystolicPressure", currentRecord.getTimestamp());
+                return alert;
             }
         }
         return null;

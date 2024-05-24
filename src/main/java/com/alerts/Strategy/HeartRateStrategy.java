@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alerts.Alert;
+import com.alerts.AlertBasic;
 import com.dataManagement.Patient;
 import com.dataManagement.PatientRecord;
 
@@ -36,7 +37,8 @@ public class HeartRateStrategy implements AlertStrategy {
         for (PatientRecord record : heartRateRecords) {
             if (record.getMeasurementValue() > 100 || record.getMeasurementValue() < 50) {
                 System.out.println("ALERT: abnormalHeartRate");
-                return new Alert(patient.getPatientId(), "abnormalHeartRate", record.getTimestamp());
+                Alert alert = new AlertBasic(patient.getPatientId(), "abnormalHeartRate", record.getTimestamp());
+                return alert;
             }
         }
         return null; 

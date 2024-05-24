@@ -1,6 +1,7 @@
 package com.alerts.Strategy;
 
 import com.alerts.Alert;
+import com.alerts.AlertBasic;
 import com.dataManagement.Patient;
 import com.dataManagement.PatientRecord;
 
@@ -37,7 +38,8 @@ public class HypoxiaAlertStrategy implements AlertStrategy {
         if (latestSystolicPressureRecord != null && latestBloodSaturationRecord != null) {
             if (latestSystolicPressureRecord.getMeasurementValue() < 90 && latestBloodSaturationRecord.getMeasurementValue() <= 92) {
                 System.out.println("ALERT: Hypoxia");
-                return new Alert(patient.getPatientId(), "Hypoxia", latestSystolicPressureRecord.getTimestamp());
+                Alert alert = new AlertBasic(patient.getPatientId(), "Hypoxia", latestSystolicPressureRecord.getTimestamp());
+                return alert;
             }
         }
 

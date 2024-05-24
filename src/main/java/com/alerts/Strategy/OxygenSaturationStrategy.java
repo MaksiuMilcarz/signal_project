@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alerts.Alert;
+import com.alerts.AlertBasic;
 import com.dataManagement.Patient;
 import com.dataManagement.PatientRecord;
 
@@ -41,7 +42,7 @@ public class OxygenSaturationStrategy implements AlertStrategy {
         for (PatientRecord record : bloodSaturationRecords) {
             if (record.getMeasurementValue() < 92) {
                 System.out.println("ALERT: lowOxygenSaturation");
-                return new Alert(patient.getPatientId(), "lowOxygenSaturation", record.getTimestamp());
+                return new AlertBasic(patient.getPatientId(), "lowOxygenSaturation", record.getTimestamp());
             }
         }
 
@@ -58,7 +59,8 @@ public class OxygenSaturationStrategy implements AlertStrategy {
 
             if (timeDifference <= 600000 && saturationDifference >= 5) {
                 System.out.println("ALERT: rapidOxygenSaturationDrop");
-                return new Alert(patient.getPatientId(), "rapidOxygenSaturationDrop", nextRecord.getTimestamp());
+                Alert alert = new AlertBasic(patient.getPatientId(), "rapidOxygenSaturationDrop", nextRecord.getTimestamp());
+                return alert;
             }
         }
 

@@ -1,5 +1,7 @@
 package com.alerts;
 
+import com.alerts.Decorator.PriorityAlertDecorator;
+import com.alerts.Decorator.RepeatedAlertDecorator;
 import com.alerts.Strategy.AlertStrategy;
 import com.alerts.Strategy.BloodPressureStrategy;
 import com.alerts.Strategy.HeartRateStrategy;
@@ -38,6 +40,8 @@ public class AlertGenerator {
         for (AlertStrategy alertStrategy : alertStrategies) {
             Alert alert = alertStrategy.checkAlert(patient);
             if (alert != null) {
+                alert = new PriorityAlertDecorator(alert, "High");
+                alert = new RepeatedAlertDecorator(alert, 5000, 3);
                 triggerAlert(alert);
             }
         }

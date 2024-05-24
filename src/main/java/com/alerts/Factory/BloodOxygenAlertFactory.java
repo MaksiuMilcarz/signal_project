@@ -1,6 +1,7 @@
 package com.alerts.Factory;
 
 import com.alerts.Alert;
+import com.alerts.AlertBasic;
 
 public class BloodOxygenAlertFactory extends AlertFactory {
     private String patientId;
@@ -13,6 +14,7 @@ public class BloodOxygenAlertFactory extends AlertFactory {
 
     @Override
     public Alert createAlert(String condition) {
-        return new Alert(patientId, condition, timestamp);
+        Alert alert = new AlertBasic(patientId, condition, timestamp);
+        return alert;
     }
 }
